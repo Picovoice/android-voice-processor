@@ -15,14 +15,10 @@ package ai.picovoice.android.voiceprocessorexample;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 
 import android.Manifest;
-import android.content.Context;
 
-import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.rule.GrantPermissionRule;
 
@@ -33,31 +29,33 @@ import org.junit.runner.RunWith;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
-import ai.picovoice.android.voiceprocessor.*;
+import ai.picovoice.android.voiceprocessor.VoiceProcessor;
+import ai.picovoice.android.voiceprocessor.VoiceProcessorBufferListener;
+import ai.picovoice.android.voiceprocessor.VoiceProcessorErrorListener;
+import ai.picovoice.android.voiceprocessor.VoiceProcessorException;
 
 @RunWith(AndroidJUnit4.class)
 public class VoiceProcessorTest {
 
     final int frameLength = 512;
     final int sampleRate = 16000;
-    final Context context = ApplicationProvider.getApplicationContext();
 
     @Rule
     public GrantPermissionRule permissionRule = GrantPermissionRule.grant(Manifest.permission.RECORD_AUDIO);
 
     @Test
-    public void testGetInstance() throws VoiceProcessorException {
-        VoiceProcessor vp = VoiceProcessor.getInstance(context, frameLength, sampleRate);
+    public void testGetInstance() {
+        VoiceProcessor vp = VoiceProcessor.getInstance(frameLength, sampleRate);
         assertNotNull(vp);
 
-        vp = VoiceProcessor.getInstance(context, 1024, 8000);
+        vp = VoiceProcessor.getInstance(1024, 8000);
         assertNotNull(vp);
     }
 
     @Test
     public void testBasic() throws InterruptedException, VoiceProcessorException {
 
-        final VoiceProcessor vp = VoiceProcessor.getInstance(context, frameLength, sampleRate);
+        final VoiceProcessor vp = VoiceProcessor.getInstance(frameLength, sampleRate);
         assertNotNull(vp);
 
         AtomicInteger frameCounter = new AtomicInteger(0);
@@ -84,7 +82,7 @@ public class VoiceProcessorTest {
 
     @Test
     public void testInvalidSetup() throws InterruptedException, VoiceProcessorException {
-        final VoiceProcessor vp = VoiceProcessor.getInstance(context, frameLength, 1000);
+        final VoiceProcessor vp = VoiceProcessor.getInstance(frameLength, 1000);
         assertNotNull(vp);
 
         AtomicInteger frameCounter = new AtomicInteger(0);
@@ -111,8 +109,8 @@ public class VoiceProcessorTest {
     }
 
     @Test
-    public void testAddRemoveListeners() throws InterruptedException, VoiceProcessorException {
-        final VoiceProcessor vp = VoiceProcessor.getInstance(context, frameLength, sampleRate);
+    public void testAddRemoveListeners() {
+        final VoiceProcessor vp = VoiceProcessor.getInstance(frameLength, sampleRate);
         assertNotNull(vp);
 
         VoiceProcessorBufferListener b1 = buffer -> {

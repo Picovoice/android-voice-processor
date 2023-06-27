@@ -12,18 +12,13 @@
 
 package ai.picovoice.android.voiceprocessor;
 
-import android.Manifest;
 import android.annotation.SuppressLint;
-import android.content.Context;
-import android.content.pm.PackageManager;
 import android.media.AudioFormat;
 import android.media.AudioRecord;
 import android.media.MediaRecorder;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Process;
-
-import androidx.core.content.ContextCompat;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -36,9 +31,9 @@ import java.util.concurrent.atomic.AtomicBoolean;
 public class VoiceProcessor {
 
     private static VoiceProcessor instance = null;
+
     private final ArrayList<VoiceProcessorBufferListener> bufferListeners = new ArrayList<>();
     private final ArrayList<VoiceProcessorErrorListener> errorListeners = new ArrayList<>();
-
     private final AtomicBoolean isStopRequested = new AtomicBoolean(false);
     private final Handler callbackHandler = new Handler(Looper.getMainLooper());
     private final Object listenerLock = new Object();
@@ -53,17 +48,8 @@ public class VoiceProcessor {
     }
 
     public static synchronized VoiceProcessor getInstance(
-            Context context,
             int frameLength,
-            int sampleRate) throws VoiceProcessorException {
-
-        int permission = ContextCompat.checkSelfPermission(
-                context,
-                Manifest.permission.RECORD_AUDIO);
-        if (permission != PackageManager.PERMISSION_GRANTED) {
-            throw new VoiceProcessorException("This app has not enabled recording permissions.");
-        }
-
+            int sampleRate) {
         if (instance == null) {
             instance = new VoiceProcessor(frameLength, sampleRate);
         } else {
@@ -192,7 +178,8 @@ public class VoiceProcessor {
 
         if (recorder.getState() != AudioRecord.STATE_INITIALIZED) {
             onError(new VoiceProcessorException(
-                    "Audio recorder did not initialize successfully"));
+                    "Audio recorder did not initialize successfully. " +
+                            "Ensure you have acquired permission to record audio from the user."));
             return;
         }
 

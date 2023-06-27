@@ -27,7 +27,7 @@ dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation fileTree(dir: '../../android-voice-processor/build/outputs/aar', include: ['*.aar'], exclude: [])
-    implementation 'androidx.test:rules:1.4.0'
+    implementation 'androidx.test:rules:1.5.0'
 
     // Espresso UI Testing
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'

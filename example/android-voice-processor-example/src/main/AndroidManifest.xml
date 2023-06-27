@@ -12,7 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name="ai.picovoice.voiceprocessorexample.MainActivity"
+            android:name="ai.picovoice.android.voiceprocessorexample.MainActivity"
             android:exported="true"
             android:screenOrientation="portrait">
             <intent-filter>
