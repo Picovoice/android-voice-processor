@@ -12,13 +12,18 @@
 
 package ai.picovoice.android.voiceprocessor;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
+import android.content.Context;
+import android.content.pm.PackageManager;
 import android.media.AudioFormat;
 import android.media.AudioRecord;
 import android.media.MediaRecorder;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Process;
+
+import androidx.core.content.ContextCompat;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -48,8 +53,17 @@ public class VoiceProcessor {
     }
 
     public static synchronized VoiceProcessor getInstance(
+            Context context,
             int frameLength,
-            int sampleRate) {
+            int sampleRate) throws VoiceProcessorException {
+
+        int permission = ContextCompat.checkSelfPermission(
+                context,
+                Manifest.permission.RECORD_AUDIO);
+        if (permission != PackageManager.PERMISSION_GRANTED) {
+            throw new VoiceProcessorException("This app has not enabled recording permissions.");
+        }
+
         if (instance == null) {
             instance = new VoiceProcessor(frameLength, sampleRate);
         } else {
@@ -159,13 +173,13 @@ public class VoiceProcessor {
                 this.sampleRate,
                 AudioFormat.CHANNEL_IN_MONO,
                 AudioFormat.ENCODING_PCM_16BIT);
-        final int bufferSize = Math.max(sampleRate / 2, minBufferSize);
+        final int bufferSize = Math.max(this.sampleRate / 2, minBufferSize);
 
         AudioRecord recorder;
         try {
             recorder = new AudioRecord(
                     MediaRecorder.AudioSource.MIC,
-                    sampleRate,
+                    this.sampleRate,
                     AudioFormat.CHANNEL_IN_MONO,
                     AudioFormat.ENCODING_PCM_16BIT,
                     bufferSize);
@@ -182,7 +196,7 @@ public class VoiceProcessor {
             return;
         }
 
-        final short[] buffer = new short[frameLength];
+        final short[] buffer = new short[this.frameLength];
         try {
             recorder.startRecording();
 

@@ -26,6 +26,10 @@ android {
     }
 }
 
+dependencies {
+    implementation 'androidx.core:core:1.6.0'
+}
+
 if (file("${rootDir}/publish-mavencentral.gradle").exists()) {
     apply from: "${rootDir}/publish-mavencentral.gradle"
 }

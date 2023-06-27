@@ -1,0 +1,40 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion defaultTargetSdkVersion
+
+    defaultConfig {
+        applicationId "ai.picovoice.android.voiceprocessorexample"
+        minSdkVersion 21
+        targetSdkVersion defaultTargetSdkVersion
+        versionCode 1
+        versionName "1.0.0"
+        testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
+    }
+    buildTypes {
+        release {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    lint {
+        abortOnError false
+    }
+}
+
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation 'androidx.appcompat:appcompat:1.6.1'
+    implementation fileTree(dir: '../../android-voice-processor/build/outputs/aar', include: ['*.aar'], exclude: [])
+    implementation 'androidx.test:rules:1.4.0'
+
+    // Espresso UI Testing
+    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
+    androidTestImplementation('androidx.test.espresso:espresso-core:3.2.0', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+
+    androidTestImplementation('com.microsoft.appcenter:espresso-test-extension:1.4')
+}
+
