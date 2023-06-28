@@ -184,6 +184,8 @@ timecode
 tmpdir
 unitypackage
 uppercased
+voiceprocessor
+voiceprocessorexample
 vtable
 wakeword
 wakewords
