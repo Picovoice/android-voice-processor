@@ -114,7 +114,7 @@ VoiceProcessorBufferListener[] listeners = new VoiceProcessorBufferListener[]{b1
 
 voiceProcessor.addBufferListeners(listeners);
 
-voiceProcessor.removeBufferListners(listeners);
+voiceProcessor.removeBufferListeners(listeners);
 // or
 voiceProcessor.clearBufferListeners();
 ```
