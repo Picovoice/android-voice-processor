@@ -1,0 +1,38 @@
+name: Android Tests
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ main ]
+    paths:
+      - '.github/workflows/android-demo.yml'
+      - '**'
+      - '!README.md'
+      - '!example/README.md'
+  pull_request:
+    branches: [ main, 'v[0-9]+.[0-9]+' ]
+    paths:
+      - '.github/workflows/android-appcenter.yml'
+      - '**'
+      - '!README.md'
+      - '!example/README.md'
+
+jobs:
+  build:
+    name: Run tests on Android
+    runs-on: pv-android
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Build lib
+      run: ./gradlew assembleDebug
+
+    - name: Build app
+      run: ./gradlew assembleDebug
+      working-directory: example
+
+    - name: Build androidTest
+      run: ./gradlew -i connectedAndroidTest
+      working-directory: example
+
