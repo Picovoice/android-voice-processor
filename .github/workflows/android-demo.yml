@@ -17,7 +17,7 @@ on:
       - '!example/README.md'
 
 jobs:
-  build-activity-demo:
+  build:
     runs-on: ubuntu-latest
 
     steps:
