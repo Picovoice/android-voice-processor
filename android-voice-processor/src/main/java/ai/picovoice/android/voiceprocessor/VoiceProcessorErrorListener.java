@@ -12,6 +12,10 @@
 
 package ai.picovoice.android.voiceprocessor;
 
+/**
+ * Listener type that can be added to VoiceProcessor with `.addErrorListener()`. Captures errors
+ * that are thrown by the recording thread.
+ */
 public interface VoiceProcessorErrorListener {
     void onError(VoiceProcessorException error);
 }
