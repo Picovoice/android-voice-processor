@@ -1,6 +1,6 @@
 ---
 name: Feature request
-about: Porcupine suggestion
+about: Android Voice Processor suggestion
 title: ''
 labels: enhancement
 assignees: ''

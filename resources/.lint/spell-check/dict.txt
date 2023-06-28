@@ -38,7 +38,6 @@ computadora
 convmv
 coolterm
 cortexm
-cporcupine
 cstring
 dkgray
 dlfcn
@@ -129,11 +128,6 @@ plughw
 podfile
 porco
 porcospino
-porcupinedemo
-porcupinedemoservice
-porcupinefiledemo
-porcupinemicdemo
-porcupinetestapp
 ppnrespeakerdemo
 prefs
 println
@@ -141,8 +135,6 @@ pthread
 ptrs
 pubspec
 pvbase
-pvporcupine
-pvporcupinedemo
 pvrecorder
 rcurly
 reactnative

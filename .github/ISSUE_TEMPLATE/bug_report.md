@@ -1,7 +1,7 @@
 ---
 name: Bug report
-about: Bugs in Porcupine
-title: 'Porcupine Issue: '
+about: Bugs in Android Voice Processor
+title: 'Android Voice Processor Issue: '
 labels: bug
 assignees: ''
 
