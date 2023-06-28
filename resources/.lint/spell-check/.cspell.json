@@ -34,5 +34,8 @@
     "**/gradlew.bat",
     "**/proguard-rules.pro",
 
+     // android & java
+     "**/AndroidManifest.xml",
+     "**/activity_main.xml"
   ]
 }
