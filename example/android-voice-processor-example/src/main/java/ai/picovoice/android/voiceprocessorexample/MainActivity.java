@@ -26,14 +26,14 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import ai.picovoice.android.voiceprocessor.VoiceProcessor;
-import ai.picovoice.android.voiceprocessor.VoiceProcessorBufferListener;
+import ai.picovoice.android.voiceprocessor.VoiceProcessorFrameListener;
 import ai.picovoice.android.voiceprocessor.VoiceProcessorErrorListener;
 import ai.picovoice.android.voiceprocessor.VoiceProcessorException;
 
 public class MainActivity extends AppCompatActivity {
 
-    private final VoiceProcessorBufferListener bufferListener = buffer -> {
-        Log.i("VoiceProcessor", String.format("Buffer of size %d received!", buffer.length));
+    private final VoiceProcessorFrameListener frameListener = frame -> {
+        Log.i("VoiceProcessor", String.format("Frame of size %d received!", frame.length));
     };
     private final VoiceProcessorErrorListener errorListener = this::onAppError;
     private VoiceProcessor vp;
@@ -43,22 +43,20 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        vp = VoiceProcessor.getInstance(512, 16000);
-        vp.addBufferListener(bufferListener);
+        vp = VoiceProcessor.getInstance();
+        vp.addFrameListener(frameListener);
         vp.addErrorListener(errorListener);
     }
 
-    private boolean hasRecordPermission() {
-        return ActivityCompat.checkSelfPermission(this, android.Manifest.permission.RECORD_AUDIO) ==
-                PackageManager.PERMISSION_GRANTED;
-    }
-
     private void requestRecordPermission() {
-        ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.RECORD_AUDIO}, 0);
+        ActivityCompat.requestPermissions(
+                this,
+                new String[]{android.Manifest.permission.RECORD_AUDIO},
+                0);
     }
 
     private void start() {
-        vp.start();
+        vp.start(512, 16000);
     }
 
     private void stop() {
@@ -100,7 +98,7 @@ public class MainActivity extends AppCompatActivity {
     public void onRecordClick(View view) {
         ToggleButton recordButton = findViewById(R.id.record_button);
         if (recordButton.isChecked()) {
-            if (hasRecordPermission()) {
+            if (vp.hasRecordAudioPermission(this)) {
                 start();
             } else {
                 requestRecordPermission();

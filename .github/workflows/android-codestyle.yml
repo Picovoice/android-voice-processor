@@ -1,18 +1,20 @@
-name: Java CodeStyle
+name: Android CodeStyle
 
 on:
   workflow_dispatch:
   push:
     branches: [ main ]
     paths:
+      - '.github/workflows/android-codestyle.yml'
       - '**/*.java'
   pull_request:
     branches: [ main, 'v[0-9]+.[0-9]+' ]
     paths:
+      - '.github/workflows/android-codestyle.yml'
       - '**/*.java'
 
 jobs:
-  check-java-codestyle:
+  check-android-codestyle:
     runs-on: ubuntu-latest
 
     steps:

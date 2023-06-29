@@ -65,42 +65,44 @@ for how to properly request for this permission from your users.
 
 ## Usage
 
-Access the singleton instance of `VoiceProcessor` with a desired audio frame length and sample rate:
+Access the singleton instance of `VoiceProcessor`:
 
 ```java
 import ai.picovoice.android.voiceprocessor.*;
 
-final int frameLength=512;
-final int sampleRate=16000;
-
-VoiceProcessor voiceProcessor = VoiceProcessor.getInstance(frameLength, sampleRate);
+VoiceProcessor voiceProcessor = VoiceProcessor.getInstance();
 ```
 
 Add listeners for audio frames and errors:
 
 ```java
-final VoiceProcessorBufferListener bufferListener = buffer -> {
+final VoiceProcessorFrameListener frameListener = frame -> {
     // use audio data
 };
 final VoiceProcessorErrorListener errorListener = e -> {
     // handle error
 };
 
-voiceProcessor.addBufferListener(bufferListener);
+voiceProcessor.addFrameListener(frameListener);
 voiceProcessor.addErrorListener(errorListener);
 ```
 
-Start/stop audio capture:
+Start audio capture with the desired frame length and audio sample rate:
 
 ```java
-voiceProcessor.start();
-// ... use audio
+final int frameLength = 512;
+final int sampleRate = 16000;
+
+voiceProcessor.start(frameLength, sampleRate);
+```
+
+Stop audio capture:
+```java
 voiceProcessor.stop();
 ```
 
-Once audio capture has started successfully, any buffer listeners assigned to the `VoiceProcessor`
-will start receiving audio buffers with the `frameLength` and `sampleRate` that was last set with
-`getInstance()`.
+Once audio capture has started successfully, any frame listeners assigned to the `VoiceProcessor`
+will start receiving audio frames with the given `frameLength` and `sampleRate`.
 
 ### Capturing with Multiple Listeners
 
@@ -108,15 +110,17 @@ Any number of listeners can be added to and removed from the `VoiceProcessor` in
 the instance can only record audio with a single audio configuration (`frameLength` and `sampleRate`),
 which all listeners will receive once a call to `start()` has been made. To add multiple listeners:
 ```java
-VoiceProcessorBufferListener listener1 = buffer -> {};
-VoiceProcessorBufferListener listener2 = buffer -> {};
-VoiceProcessorBufferListener[] listeners = new VoiceProcessorBufferListener[]{b1, b2};
+VoiceProcessorFrameListener listener1 = frame -> { };
+VoiceProcessorFrameListener listener2 = frame -> { };
+VoiceProcessorFrameListener[] listeners = new VoiceProcessorFrameListener[] {
+        listener1, listener2 
+};
 
-voiceProcessor.addBufferListeners(listeners);
+voiceProcessor.addFrameListeners(listeners);
 
-voiceProcessor.removeBufferListeners(listeners);
+voiceProcessor.removeFrameListeners(listeners);
 // or
-voiceProcessor.clearBufferListeners();
+voiceProcessor.clearFrameListeners();
 ```
 
 ## Example
