@@ -75,7 +75,7 @@ public class VoiceProcessor {
     }
 
     /**
-     * Indicates whether the given context has been granted RECORD_AUDIO permissions or not
+     * Indicates whether the given context has been granted RECORD_AUDIO permissions or not.
      *
      * @return boolean indicating whether RECORD_AUDIO permission has been granted.
      */
