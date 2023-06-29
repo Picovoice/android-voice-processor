@@ -39,8 +39,8 @@ import ai.picovoice.android.voiceprocessor.VoiceProcessorFrameListener;
 @RunWith(AndroidJUnit4.class)
 public class VoiceProcessorTest {
 
-    final int FRAME_LENGTH = 512;
-    final int SAMPLE_RATE = 16000;
+    final int frameLength = 512;
+    final int sampleRate = 16000;
 
     @Rule
     public GrantPermissionRule permissionRule = GrantPermissionRule.grant(Manifest.permission.RECORD_AUDIO);
@@ -61,13 +61,13 @@ public class VoiceProcessorTest {
 
         AtomicInteger frameCounter = new AtomicInteger(0);
         vp.addFrameListener(shorts -> {
-            assertEquals(shorts.length, FRAME_LENGTH);
+            assertEquals(shorts.length, frameLength);
             frameCounter.getAndIncrement();
         });
         vp.addErrorListener(Assert::assertNull);
 
         assertFalse(vp.getIsRecording());
-        vp.start(FRAME_LENGTH, SAMPLE_RATE);
+        vp.start(frameLength, sampleRate);
         assertTrue(vp.getIsRecording());
 
         Thread.sleep(1000);
@@ -89,7 +89,7 @@ public class VoiceProcessorTest {
         AtomicInteger frameCounter = new AtomicInteger(0);
         AtomicInteger errorCounter = new AtomicInteger(0);
         vp.addFrameListener(shorts -> {
-            assertEquals(shorts.length, FRAME_LENGTH);
+            assertEquals(shorts.length, frameLength);
             frameCounter.getAndIncrement();
         });
         vp.addErrorListener(e -> {
@@ -98,7 +98,7 @@ public class VoiceProcessorTest {
         });
 
         assertFalse(vp.getIsRecording());
-        vp.start(FRAME_LENGTH, 1000);
+        vp.start(frameLength, 1000);
         Thread.sleep(1000);
         vp.stop();
 
