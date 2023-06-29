@@ -27,9 +27,9 @@ import androidx.core.content.ContextCompat;
 
 import ai.picovoice.android.voiceprocessor.VoiceProcessor;
 import ai.picovoice.android.voiceprocessor.VoiceProcessorArgumentException;
-import ai.picovoice.android.voiceprocessor.VoiceProcessorFrameListener;
 import ai.picovoice.android.voiceprocessor.VoiceProcessorErrorListener;
 import ai.picovoice.android.voiceprocessor.VoiceProcessorException;
+import ai.picovoice.android.voiceprocessor.VoiceProcessorFrameListener;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -58,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void start() {
 
-        try{
+        try {
             vp.start(512, 16000);
         } catch (VoiceProcessorArgumentException e) {
             onAppError(e);

@@ -197,9 +197,8 @@ public class VoiceProcessor {
      *
      * @param requestedFrameLength Number of audio samples per frame.
      * @param requestedSampleRate  Audio sample rate that the audio will be captured with.
-     *
      * @throws VoiceProcessorArgumentException if VoiceProcessor is already recording with
-     * a different configuration
+     *                                         a different configuration
      */
     public synchronized void start(
             final int requestedFrameLength,
