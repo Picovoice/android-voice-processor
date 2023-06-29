@@ -49,6 +49,9 @@ public class VoiceProcessor {
 
     private Future<Void> readThread = null;
 
+    private int frameLength;
+    private int sampleRate;
+
     private VoiceProcessor() {
     }
 
@@ -192,14 +195,33 @@ public class VoiceProcessor {
      * {@link #addFrameListener(VoiceProcessorFrameListener)} in order to receive audio
      * frames from the VoiceProcessor.
      *
-     * @param frameLength Number of audio samples per frame.
-     * @param sampleRate  Audio sample rate that the audio will be captured with.
+     * @param requestedFrameLength Number of audio samples per frame.
+     * @param requestedSampleRate  Audio sample rate that the audio will be captured with.
+     *
+     * @throws VoiceProcessorArgumentException if VoiceProcessor is already recording with
+     * a different configuration
      */
-    public synchronized void start(final int frameLength, final int sampleRate) {
+    public synchronized void start(
+            final int requestedFrameLength,
+            final int requestedSampleRate) throws VoiceProcessorArgumentException {
         if (getIsRecording()) {
-            return;
+            if (requestedFrameLength != frameLength || requestedSampleRate != sampleRate) {
+                throw new VoiceProcessorArgumentException(
+                        String.format(
+                                "VoiceProcessor start() was called with frame length " +
+                                        "%d and sample rate %d while already recording with " +
+                                        "frame length %d and sample rate %d",
+                                requestedFrameLength,
+                                requestedSampleRate,
+                                frameLength,
+                                sampleRate));
+            } else {
+                return;
+            }
         }
 
+        frameLength = requestedFrameLength;
+        sampleRate = requestedSampleRate;
         readThread = Executors.newSingleThreadExecutor().submit(new Callable<Void>() {
             @Override
             public Void call() {
@@ -251,14 +273,14 @@ public class VoiceProcessor {
                     AudioFormat.ENCODING_PCM_16BIT,
                     bufferSize);
         } catch (IllegalArgumentException e) {
-            onError(new VoiceProcessorException(
+            onError(new VoiceProcessorArgumentException(
                     "Unable to initialize audio recorder with required parameters",
                     e));
             return;
         }
 
         if (recorder.getState() != AudioRecord.STATE_INITIALIZED) {
-            onError(new VoiceProcessorException(
+            onError(new VoiceProcessorStateException(
                     "Audio recorder did not initialize successfully. " +
                             "Ensure you have acquired permission to record audio from the user."));
             return;
@@ -273,7 +295,7 @@ public class VoiceProcessor {
                 if (numSamplesRead == frame.length) {
                     onFrame(frame);
                 } else {
-                    onError(new VoiceProcessorException(
+                    onError(new VoiceProcessorReadException(
                             String.format(
                                     "Expected a frame of size %d, but read one of size %d",
                                     frame.length,
@@ -284,7 +306,7 @@ public class VoiceProcessor {
 
             recorder.stop();
         } catch (IllegalStateException e) {
-            onError(new VoiceProcessorException(
+            onError(new VoiceProcessorStateException(
                     "Audio recorder entered invalid state",
                     e));
         } finally {
