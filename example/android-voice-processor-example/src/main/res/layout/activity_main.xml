@@ -21,20 +21,31 @@
     android:layout_height="match_parent"
     tools:context="ai.picovoice.android.voiceprocessorexample.MainActivity">
 
-    <ToggleButton
-        android:id="@+id/record_button"
-        android:layout_width="120dp"
-        android:layout_height="120dp"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:layout_gravity="center"
-        android:background="@drawable/button_background"
-        android:onClick="onRecordClick"
-        android:textColor="@android:color/white"
-        android:textOff="@string/start"
-        android:textOn="@string/stop"
-        android:textSize="24sp"
-        android:textStyle="bold" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:orientation="vertical">
+
+        <ai.picovoice.android.voiceprocessorexample.VuMeterView
+            android:id="@+id/vuMeterView"
+            android:layout_width="match_parent"
+            android:layout_height="50sp"
+            android:layout_margin="20sp" />
+
+        <ToggleButton
+            android:id="@+id/recordButton"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_gravity="center"
+            android:background="@drawable/button_background"
+            android:onClick="onRecordClick"
+            android:textColor="@android:color/white"
+            android:textOff="@string/start"
+            android:textOn="@string/stop"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+    </LinearLayout>
 
     <TextView
         android:id="@+id/errorMessage"

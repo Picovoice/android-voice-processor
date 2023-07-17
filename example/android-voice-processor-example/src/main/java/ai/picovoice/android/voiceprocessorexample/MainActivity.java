@@ -15,7 +15,6 @@ package ai.picovoice.android.voiceprocessorexample;
 
 import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.ToggleButton;
@@ -34,7 +33,17 @@ import ai.picovoice.android.voiceprocessor.VoiceProcessorFrameListener;
 public class MainActivity extends AppCompatActivity {
 
     private final VoiceProcessorFrameListener frameListener = frame -> {
-        Log.i("VoiceProcessor", String.format("Frame of size %d received!", frame.length));
+        double sum = 0.0;
+        for (short sample : frame) {
+            sum += Math.pow(sample, 2);
+        }
+        final double rms = Math.sqrt(sum / (double) frame.length) / (double) Short.MAX_VALUE;
+        final double dbfs = 20.0 * Math.log10(rms);
+
+        runOnUiThread(() -> {
+            final VuMeterView vuMeterView = findViewById(R.id.vuMeterView);
+            vuMeterView.setVolumeLevel(dbfs);
+        });
     };
     private final VoiceProcessorErrorListener errorListener = this::onAppError;
     private VoiceProcessor vp;
@@ -57,7 +66,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void start() {
-
         try {
             vp.start(512, 16000);
         } catch (VoiceProcessorArgumentException e) {
@@ -79,7 +87,7 @@ public class MainActivity extends AppCompatActivity {
             errorText.setText(e.getMessage());
             errorText.setVisibility(View.VISIBLE);
 
-            ToggleButton recordButton = findViewById(R.id.record_button);
+            ToggleButton recordButton = findViewById(R.id.recordButton);
             recordButton.setBackground(ContextCompat.getDrawable(
                     getApplicationContext(),
                     R.drawable.button_disabled));
@@ -102,7 +110,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onRecordClick(View view) {
-        ToggleButton recordButton = findViewById(R.id.record_button);
+        ToggleButton recordButton = findViewById(R.id.recordButton);
         if (recordButton.isChecked()) {
             if (vp.hasRecordAudioPermission(this)) {
                 start();
