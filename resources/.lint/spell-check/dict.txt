@@ -39,6 +39,7 @@ convmv
 coolterm
 cortexm
 cstring
+dbfs
 dkgray
 dlfcn
 dlopen
