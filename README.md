@@ -1,10 +1,9 @@
 # Android Voice Processor
 
-<!-- markdown-link-check-disable -->
-<!-- need to make a release first -->
-[![GitHub release](https://img.shields.io/github/release/Picovoice/pvrecorder.svg)](https://github.com/Picovoice/pvrecorder/releases)
-[![GitHub](https://img.shields.io/github/license/Picovoice/pvrecorder)](https://github.com/Picovoice/pvrecorder/)
-<!-- markdown-link-check-enable -->
+[![GitHub release](https://img.shields.io/github/release/Picovoice/android-voice-processor.svg)](https://github.com/Picovoice/android-voice-processor/releases)
+[![GitHub](https://img.shields.io/github/license/Picovoice/android-voice-processor)](https://github.com/Picovoice/android-voice-processor/)
+
+[![Maven Central](https://img.shields.io/maven-central/v/ai.picovoice/android-voice-processor?label=maven-central)](https://repo1.maven.org/maven2/ai/picovoice/android-voice-processor/)
 
 Made in Vancouver, Canada by [Picovoice](https://picovoice.ai)
 
