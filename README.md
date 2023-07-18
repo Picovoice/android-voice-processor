@@ -126,3 +126,7 @@ voiceProcessor.clearFrameListeners();
 
 The [Android Voice Processor app](example/) demonstrates how to ask for user permissions and capture output from
 the `VoiceProcessor`.
+
+### v1.0.0 - July 18, 2023
+
+- Initial public release.
