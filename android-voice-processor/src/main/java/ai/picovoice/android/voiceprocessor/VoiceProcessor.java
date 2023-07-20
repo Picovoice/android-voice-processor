@@ -21,7 +21,6 @@ import android.media.MediaRecorder;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Process;
-import android.util.Log;
 
 import androidx.core.content.ContextCompat;
 
