@@ -21,6 +21,7 @@ import android.media.MediaRecorder;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Process;
+import android.util.Log;
 
 import androidx.core.content.ContextCompat;
 
@@ -285,11 +286,11 @@ public class VoiceProcessor {
             return;
         }
 
-        final short[] frame = new short[frameLength];
         try {
             recorder.startRecording();
 
             while (!isStopRequested.get()) {
+                final short[] frame = new short[frameLength];
                 final int numSamplesRead = recorder.read(frame, 0, frame.length);
                 if (numSamplesRead == frame.length) {
                     onFrame(frame);
