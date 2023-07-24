@@ -24,8 +24,7 @@ Or open with Android Studio and run `android-voice-processor-example`.
 
 ## Usage
 
-Toggle recording on and off with the button in the center of the screen. Received buffers
-will be logged in the console.
+Toggle recording on and off with the button in the center of the screen. While recording, the VU meter on the screen will respond to the volume of incoming audio.
 
 ## Running the Unit Tests
 Ensure you have an Android device connected or simulator running. 
