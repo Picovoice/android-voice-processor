@@ -60,7 +60,7 @@ your `AndroidManifest.xml` file:
 ```
 
 See our [example app](example/) or [this guide](https://developer.android.com/training/permissions/requesting)
-for how to properly request for this permission from your users.
+for how to properly request this permission from your users.
 
 ## Usage
 
